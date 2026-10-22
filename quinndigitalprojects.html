@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <head>
-   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
-
 <style>
 body{text-align: center;font-size: 20px;color: #301501;background: #e4f5e9;}
 h2{color: #4d2401}
@@ -10,12 +8,13 @@ h2{color: #4d2401}
 }
 </style>
 </head>
+
 <body>
 <h1>My Digital Projects, by Quinn</h1>
+
 <div class=embed-box>
 <h2>My 1st Project: Infographic About a Place</h2>
-<iframe
-  src="https://new.express.adobe.com/embedLink/urn:aaid:sc:VA6C2:cacd81b5-ddff-5268-aad5-a5a421aa740e?promoid=Y69SGM5H&sdid=C4SZ2FYJ&mv=other"
+<iframe src="https://new.express.adobe.com/embedLink/urn:aaid:sc:VA6C2:cacd81b5-ddff-5268-aad5-a5a421aa740e?promoid=Y69SGM5H&sdid=C4SZ2FYJ&mv=other"
   width="1280"
   height="720"
   loading="lazy"
@@ -25,11 +24,14 @@ h2{color: #4d2401}
   frameborder="0"
   style="width:80%; max-width:1280px; height:auto; aspect-ratio:1280/720; border:0; display:block; margin:0 auto;"
 ></iframe>
+<button class="likeButtons">Like</button>
+<span class="numLikes">0</span>
 </div>
+
+
 <div class=embed-box>
 <h2>My 2nd Project: Video About my Day</h2>
-<iframe
-  src="https://new.express.adobe.com/embedLink/urn:aaid:sc:VA6C2:bad2b77a-e4db-5db2-b372-79799c75ef2e?promoid=Y69SGM5H&sdid=C4SZ2FYJ&mv=other"
+<iframe src="https://new.express.adobe.com/embedLink/urn:aaid:sc:VA6C2:bad2b77a-e4db-5db2-b372-79799c75ef2e?promoid=Y69SGM5H&sdid=C4SZ2FYJ&mv=other"
   width="1280"
   height="720"
   loading="lazy"
@@ -37,6 +39,56 @@ h2{color: #4d2401}
   allow="clipboard-write; fullscreen"
   referrerpolicy="strict-origin-when-cross-origin"
   frameborder="0"
+  style="width:80%; max-width:1280px; height:auto; aspect-ratio:1280/720; border:0; display:block; margin:0 auto;"
+></iframe>
+<button class="likeButtons">Like</button>
+<span class="numLikes">0</span>
+</div>
+
+
+<script type="module">
+ // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBD43ksjHpFB7CEYsAp3bXJY088BrA62XM",
+    authDomain: "likebuttons1-716ba.firebaseapp.com",
+    projectId: "likebuttons1-716ba",
+    storageBucket: "likebuttons1-716ba.firebasestorage.app",
+    messagingSenderId: "155010075696",
+    appId: "1:155010075696:web:6d346320ddcef2377df1f5"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+	
+	const likeButtons = document.querySelectorAll(".likeButtons")
+	const numLikes = document.querySelectorAll(".numLikes")
+
+	for (let i=0; i<likeButtons.length; i++) {
+		likeButtons[i].addEventListener('click', function(){ Like(i) })
+		onValue(ref(db, "/project "+i+"/numLikes"), (snapshot) => {
+			let data = snapshot.val();
+			numLikes[i].innerHTML = data
+		});
+		
+	}
+
+	function Like(i) {
+		let numberLikes = parseInt(numLikes[i].innerHTML)
+		numberLikes = numberLikes + 1
+		set(ref(db, "project " + i), {
+			numLikes: numberLikes,
+		});
+	}
+	
+</script>
+</body>
   style="width:80%; max-width:1280px; height:auto; aspect-ratio:1280/720; border:0; display:block; margin:0 auto;"
 ></iframe>
 </div>
